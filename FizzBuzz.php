@@ -1,4 +1,5 @@
 <?php
+require_once 'helpers.php';
 
 /**
  * Created by PhpStorm.
@@ -14,11 +15,23 @@ class FizzBuzz
 
     public function __construct()
     {
-        $fizzes = $this->flipAndFill(range(0, 100, 3), self::FIZZ);
-        $buzzes = $this->flipAndFill(range(0, 100, 5), self::BUZZ);
-        $fizzesBuzzes = $this->flipAndFill(range(0, 100, 15), (self::FIZZ.self::BUZZ));
-        $others = array_flip(range(0, 100));
-        $this->studentsNumbers = $fizzesBuzzes + $fizzes + $buzzes + $others;
+        // [3,6,9,12, so on]
+        $divisible_by_three = range(0, 100, 3);
+        $divisible_by_five = range(0, 100, 5);
+        $divisible_by_fifteen =range(0, 100, 15);
+
+        # [3=>1, 6=>2, 9=>3, so on]
+        $fizzesPlaceholder = array_flip($divisible_by_three);
+        $buzzesPlaceholder = array_flip($divisible_by_five);
+        $fizzesBuzzesPlaceholder = array_flip($divisible_by_fifteen);
+
+        # [3=>fizz,6=>fizz,9=>fizz,  so on]
+        $fizzes = data_set($fizzesPlaceholder, '*', self::FIZZ);
+        $buzzes = data_set($buzzesPlaceholder, '*', self::BUZZ);
+        $fizzesBuzzes = data_set($fizzesBuzzesPlaceholder, '*', (self::FIZZ . self::BUZZ));
+
+        $allNumbers = array_flip(range(0, 100)); # [1=>1,2=>2,3=>3, so on]
+        $this->studentsNumbers = $fizzesBuzzes + $fizzes + $buzzes + $allNumbers;
     }
 
     /**
@@ -28,15 +41,5 @@ class FizzBuzz
     public function speak($number)
     {
         return $this->studentsNumbers[$number];
-    }
-
-    private function flipAndFill($numbers, $value)
-    {
-        $fizzes = [];
-        foreach ($numbers as $number){
-            $fizzes[$number] = $value;
-        }
-
-        return $fizzes;
     }
 }

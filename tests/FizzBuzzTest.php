@@ -1,6 +1,5 @@
 <?php
 require_once '../FizzBuzz.php';
-
 /**
  * @property FizzBuzz fizzBuzz
  */
@@ -12,36 +11,31 @@ class FizzBuzzTest extends PHPUnit_Framework_TestCase
         $this->fizzBuzz = new FizzBuzz();
     }
 
-    public function test_1_1()
+    /**
+     * @dataProvider fizzBuzzProvider
+     */
+    public function testFizzBuzz($input, $output)
     {
-        $this->assertEquals(1, $this->fizzBuzz->speak(1));
+        $this->assertEquals($output, $this->fizzBuzz->speak($input));
     }
-    public function test_2_2()
+    public function fizzBuzzProvider()
     {
-        $this->assertEquals(2, $this->fizzBuzz->speak(2));
-    }
-    public function test_3_FIZZ()
-    {
-        $this->assertEquals(FizzBuzz::FIZZ, $this->fizzBuzz->speak(3));
-    }
-    public function test_4_BUZZ()
-    {
-        $this->assertEquals(4, $this->fizzBuzz->speak(4));
-    }
-    public function test_5_BUZZ()
-    {
-        $this->assertEquals(FizzBuzz::BUZZ, $this->fizzBuzz->speak(5));
-    }
-    public function test_15_FIZZBUZZ()
-    {
-        $this->assertEquals(FizzBuzz::FIZZ.FizzBuzz::BUZZ, $this->fizzBuzz->speak(15));
-    }
-    public function test_30_FIZZBUZZ()
-    {
-        $this->assertEquals(FizzBuzz::FIZZ.FizzBuzz::BUZZ, $this->fizzBuzz->speak(30));
-    }
-    public function test_100_BUZZ()
-    {
-        $this->assertEquals(FizzBuzz::BUZZ, $this->fizzBuzz->speak(100));
+        $fizzBuzzString = FizzBuzz::FIZZ.FizzBuzz::BUZZ;
+        $fizzString = FizzBuzz::FIZZ;
+        $buzzString = FizzBuzz::BUZZ;
+        return [
+            [1, 1],
+            [2, 2],
+            [3, $fizzString],
+            [4, 4],
+            [5, $buzzString],
+            [6, $fizzString],
+            [7, 7],
+            [15, $fizzBuzzString],
+            [20, $buzzString],
+            [30, $fizzBuzzString],
+            [39, $fizzString],
+            [100, $buzzString],
+        ];
     }
 }
